@@ -1,11 +1,17 @@
 const db = require("../models/dbclient");
 
 class Lesson {
-  constructor(id, date, title, status) {
-    this.id = id;
+  constructor(date, title, status) {
     this.date = date;
     this.title = title;
     this.status = status;
+  }
+
+  async set() {
+    const query = `INSERT INTO lessons (date, title, status) 
+      VALUES (DATE('${this.date}'), '${this.title}', ${this.status}) RETURNING *`;
+    const resust = await db.query(query);
+    return resust.rows[0].id;
   }
 
   static async find(params) {
