@@ -9,6 +9,7 @@
         "ecmaVersion": "latest"
     },
     "rules": {
-        "indent": ["error", 2]
+        "indent": ["error", 2],
+        "no-unused-vars": ["error", { "vars": "all", "args": "none", "ignoreRestSiblings": false }]
     }
 }

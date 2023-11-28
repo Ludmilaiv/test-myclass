@@ -1,13 +1,27 @@
 const Lesson = require("../models/lesson-model");
 const LessonTeacher = require("../models/lesson-teacher-model");
+const createError = require('http-errors')
+const { getLessonsValidator, setLessonsValidator } = require("../utiles");
 
-exports.getLessons = async function(req, res) {
+exports.getLessons = async function(req, res, next) {
+  const validate = getLessonsValidator(req.query);
+  console.log(validate);
+  if (!validate.isValid) {
+    return next(createError(400, validate.err));
+  }
+
   const lessons = await Lesson.find(req.query);
+  
   res.json(lessons);
 } 
 
-exports.setLesson = async function(req,res) {
-  const {teacherIds, title, days, firstDate, lessonsCount, lastDate}= req.body;
+exports.setLesson = async function(req, res, next) {
+  const validate = setLessonsValidator(req.body);
+  if (!validate.isValid) {
+    return next(createError(400, validate.err));
+  }
+
+  const {teacherIds, title, days, firstDate, lessonsCount, lastDate} = req.body;
 
   const firstDateTyped = new Date(firstDate);
   const lastDateTyped = lastDate ? new Date(lastDate) : null;

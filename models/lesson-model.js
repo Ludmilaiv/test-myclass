@@ -21,8 +21,8 @@ class Lesson {
       status, 
       teacherIds, 
       studentsCount, 
-      page=1, 
-      lessonsPerPage=5
+      page="1", 
+      lessonsPerPage="5"
     } = params;
 
     const dateArray = date ? date.split(",") : null;
